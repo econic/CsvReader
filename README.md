@@ -9,7 +9,7 @@ Usage couldn't be simpler: just set the source, configure your options & get the
 
 ### minimum configuration
 
-```html
+```php
 $CSVreader = new \econic\CSVreader\CSVreader();
 
 $array = $CSVreader->setSource("1,2,3\n4,5,6")->parse();
@@ -23,10 +23,141 @@ array(
 		1 => 2
 		2 => 3
 	),
-	0 => array(
+	1 => array(
 		0 => 4
 		1 => 5
 		2 => 6
 	)
 )
 ```
+
+## Characters
+CSVreader has plenty of options to offer.
+You don't have to use any of them and you can use all of them at once if you want. Just as you like.
+Just use the respective setters/adders on the CSVreader object.
+
+```php
+$CSVreader->setMyFancyOption($value);
+```
+
+All setters/adders return the CSVreader object for easy chaining.
+
+```php
+$CSVreader->setOption1($value1)->setOption2($value2)->setOption3...
+```
+
+### source
+The source given as string. It contains the CSV data you want to get parsed.
+
+#####Type: String
+#####Default: ''
+```php
+$CSVreader->setSource("1,2,3\n4,5,6");
+```
+
+### delimiter
+The delimiter in the csv data. Want a semicolon here? No problem...
+
+#####Type: String
+#####Default: ','
+```php
+$CSVreader->setDelimiter(";");
+```
+
+### newline
+The newline character in the csv data. You don't break lines? Ok then... how about a dash?
+
+#####Type: String
+#####Default: "\n"
+```php
+$CSVreader->setNewline("-");
+```
+
+### enclosure
+The enclosure character in the csv data. Useful when your values contain the delimiter or the newline character. Just wrap your whole value with the enclosure caracter.
+
+#####Type: String
+#####Default: '"'
+```php
+$CSVreader->setEnclosure("'");
+```
+
+### escape
+The escape character in the csv data. Ok now you have " as enclosure character but your value contains a " ... Just prefix it with the escape character!
+
+#####Type: String
+#####Default: '\'
+```php
+$CSVreader->setEscape("!");
+```
+
+## Options
+You can configure even more with CSVreader, like the keys, modifiers, a global trim, ...
+
+### trim
+If the values should be trimmed after parsing. Turned on by default.
+Will be executed before the modifiers.
+
+#####Type: Boolean
+#####Default: true
+```php
+$CSVreader->setTrim(false);
+```
+### keys
+Change the keys if you want to access the values via their respective attribute names.
+
+#####Type1: Integer, Type2: String
+```php
+$CSVreader->setKey(0, "title");
+```
+
+Add multiple keys at once like so
+
+#####Type: Array
+```php
+$CSVreader->addKeys( array( 0 => "title", 1 => "size" ) );
+```
+
+Reset the keys whenever necessary
+
+```php
+$CSVreader->resetKeys();
+```
+
+### modifiers
+Let's say the first value in every line of your csv is a title. It saved like "-v-a-l-u-e-" but your result should be like "VALUE".
+Just add a modifier at your chosen key and let the reader to its work. First parameter is the position of your value (0 based) or, if you chose another key for the value, your key.
+
+#####Type1: Integer/String, Type2: Callable
+```php
+$CSVreader->addModifier(0, function($var){
+	return strtoupper(str_replace("-", "", $var));
+});
+```
+
+Done. Every value will have its dashes removed and converted to uppercase. Of course you can do extremely intense stuff here.
+And you can stack the modifiers. As many as you want. They will be executed in the order you added them.
+
+```php
+$CSVreader->addModifier("title", function($var){
+	return str_replace("-", "", $var);
+})->addModifier("title", function($var){
+	return strtoupper($var);
+});
+```
+
+If you want to remove the modifiers after you added them, you can reset the modifiers of one key or all modifiers. Use
+
+```php
+$CSVreader->resetModifiers();
+});
+```
+
+to remove all modifiers or
+
+```php
+$CSVreader->resetModifiers("title");
+});
+```
+
+to remove just the modifiers registered for the title value.
