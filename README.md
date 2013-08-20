@@ -12,23 +12,39 @@ Usage couldn't be simpler: just set the source, configure your options & get the
 ```php
 $CSVreader = new \econic\CSVreader\CSVreader();
 
-$array = $CSVreader->setSource("1,2,3\n4,5,6")->parse();
+$array = $CSVreader->setSource("Elephant,421,86\nMouse,15,4")->parse();
 ```
 
 ### result
 ```php
 array(
 	0 => array(
-		0 => 1
-		1 => 2
-		2 => 3
+		0 => Elephant
+		1 => 421
+		2 => 86
 	),
 	1 => array(
-		0 => 4
-		1 => 5
-		2 => 6
+		0 => Mouse
+		1 => 15
+		2 => 4
 	)
 )
+```
+
+With this you can easily iterate over your result:
+
+```php
+foreach ($result as $line) {
+	echo "A " . $line[0] . " can become " . $line[1] . "cm tall and " . $line[2] . " years old.";
+}
+```
+
+Or even more convenient, when you set a key for your values (see below to learn how):
+
+```php
+foreach ($result as $line) {
+	echo "A " . $line["title"] . " can become " . $line["size"] . "cm tall and " . $line["age"] . " years old.";
+}
 ```
 
 ## Characters
@@ -150,14 +166,12 @@ If you want to remove the modifiers after you added them, you can reset the modi
 
 ```php
 $CSVreader->resetModifiers();
-});
 ```
 
 to remove all modifiers or
 
 ```php
 $CSVreader->resetModifiers("title");
-});
 ```
 
 to remove just the modifiers registered for the title value.
