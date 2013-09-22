@@ -19,12 +19,12 @@ $array = $CSVreader->setSource("Elephant,421,86\nMouse,15,4")->parse();
 ```php
 array(
 	0 => array(
-		0 => Elephant
+		0 => "Elephant"
 		1 => 421
 		2 => 86
 	),
 	1 => array(
-		0 => Mouse
+		0 => "Mouse"
 		1 => 15
 		2 => 4
 	)
