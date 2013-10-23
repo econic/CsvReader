@@ -11,6 +11,13 @@ class CSVreader {
 	protected $source = '';
 
 	/**
+	 * sourceHasHeadline if the source has a headline containing the keys
+	 * 
+	 * @var boolean
+	 */
+	protected $sourceHasHeadline;
+
+	/**
 	 * result the result array
 	 * 
 	 * @var array
@@ -86,6 +93,26 @@ class CSVreader {
 	 */
 	public function setSource($source) {
 		$this->source = $source;
+		return $this;
+	}
+
+	/**
+	 * Gets the sourceHasHeadline
+	 *
+	 * @return boolean
+	 */
+	public function getSourceHasHeadline() {
+		return $this->sourceHasHeadline;
+	}
+	
+	/**
+	 * Sets the sourceHasHeadline
+	 *
+	 * @param boolean $sourceHasHeadline value to set
+	 * @return this
+	 */
+	public function setSourceHasHeadline($sourceHasHeadline) {
+		$this->sourceHasHeadline = (boolean)$sourceHasHeadline;
 		return $this;
 	}
 
@@ -289,7 +316,17 @@ class CSVreader {
 	 * @return array result
 	 */
 	public function parse() {
-		foreach (str_getcsv($this->source, $this->newline, $this->enclosure, $this->escape) as $line_number => $line) { // iterate over all lines
+
+		$lines = str_getcsv($this->source, $this->newline, $this->enclosure, $this->escape);
+
+		// add keys from headline if available
+		if ($this->getSourceHasHeadline()) {
+			$keys = explode($this->delimiter, $lines[0]);
+			$this->addKeys($keys);
+			unset($lines[0]);
+		}
+
+		foreach ($lines as $line) { // iterate over all lines
 			
 			$values = str_getcsv($line, $this->delimiter, $this->enclosure, $this->escape); // save values in an array
 			
