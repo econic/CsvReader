@@ -15,7 +15,7 @@ class CSVreader {
 	 * 
 	 * @var boolean
 	 */
-	protected $sourceHasHeadline;
+	protected $sourceHasHeadline = false;
 
 	/**
 	 * result the result array
