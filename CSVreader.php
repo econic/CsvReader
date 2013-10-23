@@ -95,7 +95,7 @@ class CSVreader {
 		$this->source = $source;
 		return $this;
 	}
-
+	
 	/**
 	 * Gets the sourceHasHeadline
 	 *
@@ -132,7 +132,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setResult($result) {
-		$this->result = $result;
+		$this->result = (array)$result;
 		return $this;
 	}
 
@@ -152,7 +152,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setDelimiter($delimiter) {
-		$this->delimiter = $delimiter;
+		$this->delimiter = (string)$delimiter;
 		return $this;
 	}
 
@@ -172,7 +172,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setNewline($newline) {
-		$this->newline = $newline;
+		$this->newline = (string)$newline;
 		return $this;
 	}
 
@@ -192,7 +192,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setEnclosure($enclosure) {
-		$this->enclosure = $enclosure;
+		$this->enclosure = (string)$enclosure;
 		return $this;
 	}
 
@@ -212,7 +212,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setEscape($escape) {
-		$this->escape = $escape;
+		$this->escape = (string)$escape;
 		return $this;
 	}
 
@@ -232,7 +232,7 @@ class CSVreader {
 	 * @return self
 	 */
 	public function setTrim($trim) {
-		$this->trim = $trim;
+		$this->trim = (boolean)$trim;
 		return $this;
 	}
 
@@ -261,11 +261,11 @@ class CSVreader {
 	/**
 	 * Sets the key for a property
 	 * 
-	 * @param int $location which key should be replaced
+	 * @param integer $location which key should be replaced
 	 * @param string $key      what the new associative key should be named like
 	 */
 	public function setKey($location, $key) {
-		$this->keys[$location] = $key;
+		$this->keys[(integer)$location] = (string)$key;
 		return $this;
 	}
 
