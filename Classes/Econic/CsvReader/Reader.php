@@ -1,7 +1,7 @@
 <?php
-namespace econic\CSVreader;
+namespace Econic\CsvReader;
 
-class CSVreader {
+class Reader {
 
 	/**
 	 * source the source to work with
