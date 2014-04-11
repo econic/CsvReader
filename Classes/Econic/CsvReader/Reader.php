@@ -348,8 +348,10 @@ class Reader {
 				
 				$processedValue = $rawValue;
 
-				foreach ((array)$this->modifiers[$key] as $modifier) { // let the registered modifiers do their work
-					$processedValue = call_user_func($modifier, $processedValue);
+				if (isset($this->modifiers[$key])) { // if there are registered modifiers for that key, let them do their work
+					foreach ((array)$this->modifiers[$key] as $modifier) {
+						$processedValue = call_user_func($modifier, $processedValue);
+					}
 				}
 				
 				$dataset[$key] = $processedValue;
