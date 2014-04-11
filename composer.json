@@ -1,6 +1,5 @@
 {
 	"name": "econic/csvreader",
-	// "type": "typo3-flow-package",
 	"description": "Utility class for converting csv data into two-dimensional associative arrays",
 	"keywords": ["csv","reader","arrays","utility"],
 	"homepage": "https://github.com/econic/CsvReader.git",
